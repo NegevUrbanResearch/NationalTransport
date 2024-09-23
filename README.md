@@ -11,19 +11,11 @@ This repository contains scripts and tools for analyzing Israel's National Trans
 
 ## Getting Started
 
-To get started with the preliminary analysis, navigate to the `preliminary_analysis/` directory and refer to its README for detailed instructions on running the scripts.
+To get started with the preliminary analysis, navigate to the `preliminary_analysis/` directory.
 
 For more advanced visualizations and analysis, explore the other directories as needed.
 
 ## Data Source
 
 - Main data is sourced from [Israel Government Data Portal](https://data.gov.il/dataset/tripscelular_1819).
-- Additional data sources are specified in the respective folder READMEs where necessary.
-
-## Contributing
-
-Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE.md file for details.
+- Additional data sources are needed for the OTP model.
