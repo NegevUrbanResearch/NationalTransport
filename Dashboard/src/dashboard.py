@@ -7,13 +7,50 @@ from plotly.subplots import make_subplots
 import pandas as pd
 import geopandas as gpd
 import numpy as np
+import logging
+import os
+from datetime import datetime
+
+# Set up logging
+os.makedirs('logs', exist_ok=True)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(f'logs/dashboard_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
 
 print("Loading data...")
 # Load data
-df_weekday = pd.read_csv('/Users/noamgal/Downloads/NUR/celular1819_v1.3/AvgDayHourlyTrips201819_1270_weekday_v1.csv')
-df_weekday_arrival = pd.read_csv('/Users/noamgal/Downloads/NUR/celular1819_v1.3/AvgDayHourlyTrips201819_1270_weekday_arrival_v1.2.csv')
-zones = gpd.read_file('/Users/noamgal/Downloads/NUR/celular1819_v1.3/Shape_files/1270_02.09.2021.shp')
-population_df = pd.read_excel('/Users/noamgal/Downloads/NUR/celular1819_v1.3/1270_population.xlsx')
+try:
+    logger.info("Loading data...")
+    df_weekday = pd.read_csv('./data/trips/AvgDayHourlyTrips201819_1270_weekday_v1.csv')
+    logger.info("Loaded weekday trips data")
+    
+    df_weekday_arrival = pd.read_csv('./data/trips/AvgDayHourlyTrips201819_1270_weekday_arrival_v1.2.csv')
+    logger.info("Loaded weekday arrival data")
+    
+    # For shapefile, we need to check if all required files exist
+    required_extensions = ['.shp', '.shx', '.dbf', '.prj']
+    base_path = './data/shapes/1270_02.09.2021'
+    missing_files = [ext for ext in required_extensions 
+                    if not os.path.exists(f"{base_path}{ext}")]
+    
+    if missing_files:
+        raise FileNotFoundError(f"Missing shapefile components: {missing_files}")
+    
+    zones = gpd.read_file(f"{base_path}.shp")
+    logger.info("Loaded zones shapefile")
+    
+    population_df = pd.read_excel('./data/population/1270_population.xlsx')
+    logger.info("Loaded population data")
+
+except Exception as e:
+    logger.error(f"Error loading data: {str(e)}", exc_info=True)
+    raise
 
 # Convert zones to Web Mercator projection
 zones = zones.to_crs(epsg=3857)
@@ -379,6 +416,6 @@ def update_graphs(selected_taz, clickData, current_taz):
 # Run the app
 if __name__ == '__main__':
     print("Starting the Dash app...")
-    app.run_server(debug=True)
+    app.run_server(debug=True, host='0.0.0.0')
 
-print("Dashboard is running on http://127.0.0.1:8050/")
+print("Dashboard is running on http://localhost:8050/")
