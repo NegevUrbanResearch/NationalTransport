@@ -15,14 +15,24 @@ import time
 import os
 import random
 
-# To use this script, you must have built an OTP model stored locally with Israel's GTFS and OSM data
-# OTP Documentation: https://docs.opentripplanner.org/en/latest/
-# OTP Version Releases: https://github.com/opentripplanner/OpenTripPlanner/releases
-# GTFS Data can be downloaded here: https://gtfs.mot.gov.il/gtfsfiles/
-# OSM data can be downloaded here: https://download.geofabrik.de/asia/israel-and-palestine.html
 
-# the output of this 
 
+# To use this script:
+# 1. Download and set up an OTP model with Israel's GTFS and OSM data (see README.md for setup instructions)
+# 2. Launch the OTP server on my local machine:
+#    cd /Users/noamgal/Downloads/NUR/otp_project
+#    java -Xmx8G -jar otp-2.5.0-shaded.jar --load --serve graphs
+# 3. Ensure the server is running at http://localhost:8080 before running this script
+#
+# Local File Locations:
+# - OTP JAR: /Users/noamgal/Downloads/NUR/otp_project/otp-2.5.0-shaded.jar
+# - Graphs Directory: /Users/noamgal/Downloads/NUR/otp_project/graphs
+#
+# Data Sources:
+# - OTP Documentation: https://docs.opentripplanner.org/en/latest/
+# - OTP Version Releases: https://github.com/opentripplanner/OpenTripPlanner/releases
+# - GTFS Data: https://gtfs.mot.gov.il/gtfsfiles/
+# - OSM data: https://download.geofabrik.de/asia/israel-and-palestine.html
 
 # Load TAZ zones shapefile
 zones = gpd.read_file('/Users/noamgal/Downloads/NUR/celular1819_v1.3/Shape_files/1270_02.09.2021.shp')

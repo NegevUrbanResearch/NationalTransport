@@ -10,7 +10,7 @@ import numpy as np
 import logging
 import os
 from datetime import datetime
-
+print("Current working directory:", os.getcwd())
 # Set up logging
 os.makedirs('logs', exist_ok=True)
 logging.basicConfig(
@@ -27,15 +27,15 @@ print("Loading data...")
 # Load data
 try:
     logger.info("Loading data...")
-    df_weekday = pd.read_csv('./data/trips/AvgDayHourlyTrips201819_1270_weekday_v1.csv')
+    df_weekday = pd.read_csv('Dashboard/data/trips/AvgDayHourlyTrips201819_1270_weekday_v1.csv')
     logger.info("Loaded weekday trips data")
     
-    df_weekday_arrival = pd.read_csv('./data/trips/AvgDayHourlyTrips201819_1270_weekday_arrival_v1.2.csv')
+    df_weekday_arrival = pd.read_csv('Dashboard/data/trips/AvgDayHourlyTrips201819_1270_weekday_arrival_v1.2.csv')
     logger.info("Loaded weekday arrival data")
     
     # For shapefile, we need to check if all required files exist
     required_extensions = ['.shp', '.shx', '.dbf', '.prj']
-    base_path = './data/shapes/1270_02.09.2021'
+    base_path = 'Dashboard/data/shapes/1270_02.09.2021'
     missing_files = [ext for ext in required_extensions 
                     if not os.path.exists(f"{base_path}{ext}")]
     
@@ -45,7 +45,7 @@ try:
     zones = gpd.read_file(f"{base_path}.shp")
     logger.info("Loaded zones shapefile")
     
-    population_df = pd.read_excel('./data/population/1270_population.xlsx')
+    population_df = pd.read_excel('Dashboard/data/population/1270_population.xlsx')
     logger.info("Loaded population data")
 
 except Exception as e:

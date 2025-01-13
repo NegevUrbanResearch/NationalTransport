@@ -4,6 +4,9 @@
 Created on Thu Aug  8 17:16:17 2024
 
 @author: noamgal
+
+This script contains utility functions to clean the GTFS data for Israel's public transportation system.
+It updates the translations.txt file, the routes.txt file, and the stops.txt file.
 """
 
 import csv

@@ -21,11 +21,11 @@ import folium
 from folium.plugins import MarkerCluster
 
 # Loads and reads the Half Hour Trip Data
-half_hour_path = '/Users/noamgal/Downloads/NUR/celular1819_v1.3/AvgDayHalfHour6_20Trips201819_1270_weekday_v1.2.csv'
+half_hour_path = 'Dashboard/data/trips/AvgDayHalfHour6_20Trips201819_1270_weekday_v1.2.csv'
 travel_hh = pd.read_csv(half_hour_path)
 
 # Shapefile Paths
-zones_path = '/Users/noamgal/Downloads/NUR/celular1819_v1.3/Shape_files/1270_02.09.2021.shp'
+zones_path = 'Dashboard/data/shapes/1270_02.09.2021.shp'
 # Read the shapefile
 zones = gpd.read_file(zones_path)
 

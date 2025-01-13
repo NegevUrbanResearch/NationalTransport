@@ -3,11 +3,11 @@ import geopandas as gpd
 import numpy as np
 from tqdm import tqdm
 
-print("Loading data...")
-zones = gpd.read_file('./data/shapes/1270_02.09.2021.shp').to_crs(epsg=3857)
-population_df = pd.read_excel('./data/population/1270_population.xlsx')
-df_weekday = pd.read_csv('./data/trips/AvgDayHourlyTrips201819_1270_weekday_v1.csv')
-df_weekday_arrival = pd.read_csv('./data/trips/AvgDayHourlyTrips201819_1270_weekday_arrival_v1.2.csv')
+
+zones = gpd.read_file('Dashboard/data/shapes/1270_02.09.2021.shp').to_crs(epsg=3857)
+population_df = pd.read_excel('Dashboard/data/population/1270_population.xlsx')
+df_weekday = pd.read_csv('Dashboard/data/trips/AvgDayHourlyTrips201819_1270_weekday_v1.csv')
+df_weekday_arrival = pd.read_csv('Dashboard/data/trips/AvgDayHourlyTrips201819_1270_weekday_arrival_v1.2.csv')
 
 print("Preprocessing data...")
 print("Step 1/5: Preparing population data")
@@ -52,9 +52,9 @@ print(f"Average trips per 10k: {df_weekday['trips_per_10k'].mean():.2f}")
 print(f"Max trips per 10k: {df_weekday['trips_per_10k'].max():.2f}")
 
 print("\nSaving preprocessed data...")
-df_weekday.to_csv('./data/processed/preprocessed_mobility_data.csv', index=False)
+df_weekday.to_csv('Dashboard/data/processed/preprocessed_mobility_data.csv', index=False)
 
 print("Saving zones data...")
-zones.to_file('./data/processed/zones_3857.geojson', driver='GeoJSON')
+zones.to_file('Dashboard/data/processed/zones_3857.geojson', driver='GeoJSON')
 
 print("\nPreprocessing complete. Data saved to preprocessed_mobility_data.csv and zones_3857.geojson")
