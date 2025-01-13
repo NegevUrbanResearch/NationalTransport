@@ -67,22 +67,9 @@ app = dash.Dash(__name__, external_stylesheets=[
     'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap'
 ])
 
-# Initialize Dash app with external stylesheets
-app = dash.Dash(__name__, external_stylesheets=[
-    'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap'
-])
-
 # Define app layout with improved styling and increased font sizes
 app.layout = html.Div([
     html.H1("Mobility Data Dashboard", style={'textAlign': 'center', 'color': '#FFFFFF', 'fontFamily': 'Roboto', 'fontSize': '54px', 'marginBottom': '30px'}),
-    html.Div([
-        dcc.Dropdown(
-            id='taz-dropdown',
-            options=[{'label': str(i), 'value': i} for i in valid_tazs],
-            value=valid_tazs[0],
-            style={'width': '100%', 'fontSize': '27px'}
-        )
-    ], style={'width': '50%', 'margin': 'auto', 'marginBottom': '30px'}),
     dcc.Graph(id='geopandas-map', style={'height': '700px'}),
     dcc.Graph(id='time-signature'),
     dcc.Graph(id='trips-by-distance'),
@@ -375,25 +362,12 @@ def create_geopandas_map(focus_zone):
     [Output('geopandas-map', 'figure'),
      Output('time-signature', 'figure'),
      Output('trips-by-distance', 'figure'),
-     Output('output-message', 'children'),
-     Output('taz-dropdown', 'value')],
-    [Input('taz-dropdown', 'value'),
-     Input('geopandas-map', 'clickData')],
-    [State('taz-dropdown', 'value')]
+     Output('output-message', 'children')],
+    [Input('geopandas-map', 'clickData')]
 )
-def update_graphs(selected_taz, clickData, current_taz):
-    ctx = dash.callback_context
-    if not ctx.triggered:
-        taz = current_taz
-    else:
-        input_id = ctx.triggered[0]['prop_id'].split('.')[0]
-        if input_id == 'geopandas-map':
-            if clickData is not None and 'customdata' in clickData['points'][0]:
-                taz = clickData['points'][0]['customdata'][0]
-            else:
-                taz = current_taz
-        else:
-            taz = selected_taz
+def update_graphs(clickData):
+    # Set default TAZ if no click data
+    taz = valid_tazs[0] if clickData is None else clickData['points'][0]['customdata'][0]
 
     print(f"Updating graphs for TAZ: {taz}")
     try:
@@ -403,15 +377,15 @@ def update_graphs(selected_taz, clickData, current_taz):
 
         message = f"All graphs updated successfully for TAZ {taz}."
         print(message)
-        return geopandas_map, time_signature_fig, trips_by_distance_fig, message, taz
+        return geopandas_map, time_signature_fig, trips_by_distance_fig, message
     except Exception as e:
         error_message = f"Error updating graphs for TAZ {taz}: {str(e)}"
         print(error_message)
         empty_fig = go.Figure()
         empty_fig.add_annotation(text=error_message,
-                                 xref="paper", yref="paper",
-                                 x=0.5, y=0.5, showarrow=False)
-        return empty_fig, empty_fig, empty_fig, error_message, current_taz
+                               xref="paper", yref="paper",
+                               x=0.5, y=0.5, showarrow=False)
+        return empty_fig, empty_fig, empty_fig, error_message
 
 # Run the app
 if __name__ == '__main__':
