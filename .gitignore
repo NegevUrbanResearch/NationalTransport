@@ -39,3 +39,4 @@ Dashboard/logs/*
 .vscode/
 *.swp
 *.swo
+*logs
