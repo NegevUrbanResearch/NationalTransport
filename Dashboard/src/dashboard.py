@@ -69,7 +69,7 @@ app = dash.Dash(__name__, external_stylesheets=[
 
 # Define app layout with improved styling and increased font sizes
 app.layout = html.Div([
-    html.H1("Mobility Data Dashboard", style={'textAlign': 'center', 'color': '#FFFFFF', 'fontFamily': 'Roboto', 'fontSize': '54px', 'marginBottom': '30px'}),
+    html.H1("National Mobility Data Dashboard", style={'textAlign': 'center', 'color': '#FFFFFF', 'fontFamily': 'Roboto', 'fontSize': '96px', 'marginBottom': '30px'}),
     dcc.Graph(id='geopandas-map', style={'height': '700px'}),
     dcc.Graph(id='time-signature'),
     dcc.Graph(id='trips-by-distance'),
@@ -313,39 +313,9 @@ def create_geopandas_map(focus_zone):
     # Update colorbar font size
     fig.update_coloraxes(colorbar_title_font_size=18, colorbar_tickfont_size=15)
 
-    # Add scale bar with increased font size
-    scale_bar_color = 'white'
-    fig.add_shape(type="line",
-        x0=0.01, y0=0.05, x1=0.11, y1=0.05,
-        line=dict(color=scale_bar_color, width=3),
-        xref="paper", yref="paper"
-    )
-    for i, label in enumerate(['0', '5', '10']):
-        fig.add_annotation(
-            x=0.01 + i * 0.05, y=0.04,
-            text=label,
-            showarrow=False,
-            xref="paper", yref="paper",
-            font=dict(size=15, color=scale_bar_color)  # Increased font size
-        )
-    fig.add_annotation(
-        x=0.06, y=0.07,
-        text="km",
-        showarrow=False,
-        xref="paper", yref="paper",
-        font=dict(size=15, color=scale_bar_color)  # Increased font size
-    )
+
 
     # Add north arrow with increased font size
-    fig.add_annotation(
-        x=0.02,
-        y=0.98,
-        xref="paper",
-        yref="paper",
-        text="↑",
-        showarrow=False,
-        font=dict(size=36, color=scale_bar_color),  # Increased font size
-    )
     fig.add_annotation(
         x=0.02,
         y=0.95,
@@ -353,7 +323,7 @@ def create_geopandas_map(focus_zone):
         yref="paper",
         text="N",
         showarrow=False,
-        font=dict(size=24, color=scale_bar_color),  # Increased font size
+        font=dict(size=24, color="white"),  # Increased font size
     )
     print("Geopandas map created successfully")
     return fig
